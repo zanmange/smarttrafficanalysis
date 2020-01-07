@@ -92,24 +92,24 @@ case $argument in
     # Get the run-docker script
 
     if [[ "$PLATFORM" != ${PLATFORM_OPTIONS[3]} ]]; then
-      wget -N https://raw.githubusercontent.com/opendatacam/opendatacam/$VERSION/docker/run-jetson/run-docker.sh
+      wget -N https://raw.githubusercontent.com/zanmange/smarttrafficanalysis/$VERSION/docker/run-jetson/run-docker.sh
       # Chmod to give exec permissions
       chmod 777 run-docker.sh
     else
-      wget -N https://raw.githubusercontent.com/opendatacam/opendatacam/$VERSION/docker/run-nvidia-docker/run-nvidiadocker.sh
+      wget -N https://raw.githubusercontent.com/zanmange/smarttrafficanalysis/$VERSION/docker/run-nvidia-docker/run-nvidiadocker.sh
       # Chmod to give exec permissions
       chmod 777 run-nvidiadocker.sh
     fi
     
     # Get the config file
     echo "Download config file ..."
-    wget -N https://raw.githubusercontent.com/opendatacam/opendatacam/$VERSION/config.json
+    wget -N https://raw.githubusercontent.com/zanmange/smarttrafficanalysis/$VERSION/config.json
 
     # Create the directory to run on files
     echo "Create the directory to run on files ..."
     mkdir -p opendatacam_videos
     echo "Download demo video ..."
-    wget -N https://github.com/opendatacam/opendatacam/raw/$VERSION/static/demo/demo.mp4 -O opendatacam_videos/demo.mp4
+    wget -N https://github.com/zanmange/smarttrafficanalysis/raw/$VERSION/static/demo/demo.mp4 -O smarttrafficanalysis_videos/demo.mp4
 
     # Replace VIDEO_INPUT and NEURAL_NETWORK with default config for this platform
     VIDEO_INPUT=${DEFAUT_VIDEO_INPUT_OPTIONS[$INDEX]}
@@ -138,14 +138,14 @@ case $argument in
     
     if [[ "$PLATFORM" != ${PLATFORM_OPTIONS[3]} ]]; then
       # Create the run-opendatacam.sh script
-      echo "./run-docker.sh run -d -name opendatacam --restart unless-stopped opendatacam/opendatacam:$VERSION-$PLATFORM" > run-opendatacam.sh
+      echo "./run-docker.sh run -d -name opendatacam --restart unless-stopped zanmange/smarttrafficanalysis:$VERSION-$PLATFORM" > run-opendatacam.sh
       chmod 777 run-opendatacam.sh
       echo "Create a run-opendatacam.sh script for easy container start"
       # Pull, install and run opendatacam container when docker starts (on boot with --restart unless-stopped, -d is for detached mode)
       sudo ./run-opendatacam.sh
     else
       # Create the run-opendatacam.sh script
-      echo "./run-nvidiadocker.sh run -d -name opendatacam --restart unless-stopped opendatacam/opendatacam:$VERSION-$PLATFORM" > run-opendatacam.sh
+      echo "./run-nvidiadocker.sh run -d -name opendatacam --restart unless-stopped zanmange/smarttrafficanalysis:$VERSION-$PLATFORM" > run-opendatacam.sh
       chmod 777 run-opendatacam.sh
       echo "Create a run-opendatacam.sh script for easy container start"
       # Pull, install and run opendatacam container when docker starts (on boot with --restart unless-stopped, -d is for detached mode)
@@ -153,7 +153,7 @@ case $argument in
     fi
 
     # Message that docker container has been started and opendatacam will be available shorty on <IP>
-    echo "OpenDataCam docker container installed successfully, it might take up to 1-2 min to start the node app and the webserver"
+    echo "SmartTrafficAnalysis docker container installed successfully, it might take up to 1-2 min to start the node app and the webserver"
     
     # Cancel stop bash script on error (get IP will fail is no wifi dongle / ethernet connexion)
     set +e
@@ -172,7 +172,7 @@ case $argument in
     fi
 
     echo "OpenDataCam will start automaticaly on boot when you restart you jetson"
-    echo "If you want to stop it, please refer to the doc: https://github.com/opendatacam/opendatacam"
+    echo "If you want to stop it, please refer to the doc: https://github.com/zanmange/smarttrafficanalysis"
 
     ;;
   *)
