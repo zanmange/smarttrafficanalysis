@@ -35,12 +35,12 @@ RUN apt-get install -y nodejs
 
 # Technique to rebuild the docker file from here : https://stackoverflow.com/a/49831094/1228937
 # Build using date > marker && docker build .
-# date > marker && sudo docker build -t opendatacam .
+# date > marker && sudo docker build -t smarttrafficanalysis .
 COPY marker /dev/null
 
-RUN git clone --depth 1 -b v2.1.0 https://github.com/opendatacam/opendatacam /opendatacam
+RUN git clone --depth 1 -b v2.1.0 https://github.com/zanmange/smarttrafficanalysis /smarttrafficanalysis
 
-WORKDIR /opendatacam
+WORKDIR /smarttrafficanalysis
 
 RUN npm install
 RUN npm run build

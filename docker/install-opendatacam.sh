@@ -18,7 +18,7 @@ DEFAUT_NEURAL_NETWORK_OPTIONS=("yolov3-tiny" "yolov2-voc" "yolov3" "yolov3")
 PATH_DARKNET_JETSON=/darknet
 PATH_DARKNET_NVIDIA_DOCKER=/var/local/darknet
 
-echo "Installing opendatacam docker image"
+echo "Installing smarttrafficanalysis docker image"
 
 display_usage() {
   echo
@@ -86,7 +86,7 @@ case $argument in
     # Platform is specified 
     PLATFORM=$2
     
-    echo "Installing opendatacam $VERSION for platform: $2 ..."
+    echo "Installing smarttrafficanalysis $VERSION for platform: $2 ..."
     
     echo "Download run script for docker ..."
     # Get the run-docker script
@@ -107,7 +107,7 @@ case $argument in
 
     # Create the directory to run on files
     echo "Create the directory to run on files ..."
-    mkdir -p opendatacam_videos
+    mkdir -p smarttrafficanalysis_videos
     echo "Download demo video ..."
     wget -N https://github.com/zanmange/smarttrafficanalysis/raw/$VERSION/static/demo/demo.mp4 -O smarttrafficanalysis_videos/demo.mp4
 
@@ -134,18 +134,18 @@ case $argument in
       echo "PATH_TO_YOLO_DARKNET : $PATH_DARKNET_NVIDIA_DOCKER"
     fi
 
-    echo "Download, install and run opendatacam docker container"
+    echo "Download, install and run smarttrafficanalysis docker container"
     
     if [[ "$PLATFORM" != ${PLATFORM_OPTIONS[3]} ]]; then
       # Create the run-opendatacam.sh script
-      echo "./run-docker.sh run -d -name opendatacam --restart unless-stopped zanmange/smarttrafficanalysis:$VERSION-$PLATFORM" > run-opendatacam.sh
+      echo "./run-docker.sh run -d -name smarttrafficanalysis --restart unless-stopped smarttrafficanalysis:$VERSION-$PLATFORM" > run-opendatacam.sh
       chmod 777 run-opendatacam.sh
       echo "Create a run-opendatacam.sh script for easy container start"
       # Pull, install and run opendatacam container when docker starts (on boot with --restart unless-stopped, -d is for detached mode)
       sudo ./run-opendatacam.sh
     else
       # Create the run-opendatacam.sh script
-      echo "./run-nvidiadocker.sh run -d -name opendatacam --restart unless-stopped zanmange/smarttrafficanalysis:$VERSION-$PLATFORM" > run-opendatacam.sh
+      echo "./run-nvidiadocker.sh run -d -name smarttrafficanalysis --restart unless-stopped smarttrafficanalysis:$VERSION-$PLATFORM" > run-opendatacam.sh
       chmod 777 run-opendatacam.sh
       echo "Create a run-opendatacam.sh script for easy container start"
       # Pull, install and run opendatacam container when docker starts (on boot with --restart unless-stopped, -d is for detached mode)
@@ -163,15 +163,15 @@ case $argument in
     
     if [ -n "$wifiIP" ]; then
       echo "WIFI device IP"
-      echo "OpenDataCam is available at: http://$wifiIP:8080"
+      echo "smarttrafficanalysis is available at: http://$wifiIP:8080"
     fi
 
     if [ -n "$ethernetIP" ]; then
       echo "Ethernet device IP"
-      echo "OpenDataCam is available at: http://$ethernetIP:8080"
+      echo "smarttrafficanalysis is available at: http://$ethernetIP:8080"
     fi
 
-    echo "OpenDataCam will start automaticaly on boot when you restart you jetson"
+    echo "smarttrafficanalysis will start automaticaly on boot when you restart you jetson"
     echo "If you want to stop it, please refer to the doc: https://github.com/zanmange/smarttrafficanalysis"
 
     ;;
